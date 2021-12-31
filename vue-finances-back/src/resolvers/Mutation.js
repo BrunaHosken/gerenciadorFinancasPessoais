@@ -21,6 +21,24 @@ function createAccount(_, { description }, ctx, info) {
   );
 }
 
+function createCategory(_, { description, operation }, ctx, info) {
+  const userId = getUserId(ctx);
+  return ctx.db.mutation.createCategory(
+    {
+      data: {
+        description,
+        operation,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    },
+    info
+  );
+}
+
 async function login(_, { email, password }, ctx, info) {
   const user = await ctx.db.query.user({ where: { email } });
   if (!user) {
@@ -33,7 +51,6 @@ async function login(_, { email, password }, ctx, info) {
   const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "2h" });
 
   return {
-    createAccount,
     token,
     user,
   };
@@ -54,6 +71,7 @@ async function signup(_, args, ctx, info) {
 }
 
 module.exports = {
+  createCategory,
   createAccount,
   login,
   signup,
