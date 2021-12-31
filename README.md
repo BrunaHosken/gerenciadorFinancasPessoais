@@ -4,7 +4,7 @@
 
 - Criar conta de usuario
 - Criar Lançamento (Receita ou Despesa)
-- Criar Contas (Crédito, Dinheiro, ...)
+- Criar Contas (Crédito e Débito)
 - Criar Categorias
 - Listar Lançamentos por mês
 - Filtrar Lançamentos
