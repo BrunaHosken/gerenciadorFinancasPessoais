@@ -22,7 +22,8 @@
 
 # FrontEnd
 
-- Vuest-Vue Router
+- Vue
+- Vue Router
 - Vuex
 - Vuetify
 - Vuelidate
