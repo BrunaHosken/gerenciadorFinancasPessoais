@@ -29,3 +29,7 @@
 - Vuelidate
 - Apollo Client
 - Chart JS (Gráficos)
+
+# Modelagem de dados
+
+![image](https://user-images.githubusercontent.com/43359365/147829490-2b06c2bc-6744-4ee8-b9e1-6558e5f4bc5f.png)
