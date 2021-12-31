@@ -7,7 +7,9 @@ services:
       - "4000:4000"
     environment:
       PRISMA_ENDPOINT: http://prisma:4466
-    command: npm start
+    command: npm run dev
+    volumes:
+      - .:/usr/app
 
   prisma:
     image: prismagraphql/prisma:1.28
