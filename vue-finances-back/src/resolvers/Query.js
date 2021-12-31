@@ -22,6 +22,34 @@ function accounts(_, args, ctx, info) {
   );
 }
 
+function categories(_, { operation }, ctx, info) {
+  const userId = getUserId(ctx);
+  let AND = [
+    {
+      OR: [
+        {
+          user: {
+            id: userId,
+          },
+        },
+        {
+          user: null,
+        },
+      ],
+    },
+  ];
+
+  AND = !operation ? AND : [...AND, { operation }];
+
+  return ctx.db.query.categories(
+    {
+      where: { AND },
+      orderBy: "description_ASC",
+    },
+    info
+  );
+}
+
 function user(_, args, ctx, info) {
   // return prisma.user({ id: args.id });
   const userId = getUserId(ctx);
@@ -30,5 +58,6 @@ function user(_, args, ctx, info) {
 
 module.exports = {
   accounts,
+  categories,
   user,
 };
