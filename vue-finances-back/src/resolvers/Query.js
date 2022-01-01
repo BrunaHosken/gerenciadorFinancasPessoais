@@ -50,6 +50,36 @@ function categories(_, { operation }, ctx, info) {
   );
 }
 
+function records(_, { type, accountsId, categoriesId }, ctx, info) {
+  const userId = getUserId(ctx);
+  let AND = [
+    {
+      user: {
+        id: userId,
+      },
+    },
+  ];
+
+  AND = !type ? AND : [...AND, { type }];
+  AND =
+    !accountsId || accountsId.length === 0
+      ? AND
+      : [...AND, { OR: accountsId.map((id) => ({ account: { id } })) }];
+
+  AND =
+    !categoriesId || categoriesId.length === 0
+      ? AND
+      : [...AND, { OR: categoriesId.map((id) => ({ category: { id } })) }];
+
+  return ctx.db.query.records(
+    {
+      where: { AND },
+      orderBy: "date_ASC",
+    },
+    info
+  );
+}
+
 function user(_, args, ctx, info) {
   // return prisma.user({ id: args.id });
   const userId = getUserId(ctx);
@@ -59,5 +89,6 @@ function user(_, args, ctx, info) {
 module.exports = {
   accounts,
   categories,
+  records,
   user,
 };

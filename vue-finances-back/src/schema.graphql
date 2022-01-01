@@ -3,6 +3,7 @@ scalar Date
 type Query {
   accounts: [Account!]!
   categories(operation: Operation): [Category!]!
+  records(type: Operation, accountsId: [ID!], categoriesId: [ID!]): [Record!]!
   user: User
 }
 
