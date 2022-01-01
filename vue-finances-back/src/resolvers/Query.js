@@ -1,4 +1,5 @@
 const { getUserId } = require("./../utils");
+const moment = require("moment");
 
 function accounts(_, args, ctx, info) {
   const userId = getUserId(ctx);
@@ -50,7 +51,7 @@ function categories(_, { operation }, ctx, info) {
   );
 }
 
-function records(_, { type, accountsId, categoriesId }, ctx, info) {
+function records(_, { month, type, accountsId, categoriesId }, ctx, info) {
   const userId = getUserId(ctx);
   let AND = [
     {
@@ -70,6 +71,14 @@ function records(_, { type, accountsId, categoriesId }, ctx, info) {
     !categoriesId || categoriesId.length === 0
       ? AND
       : [...AND, { OR: categoriesId.map((id) => ({ category: { id } })) }];
+
+  if (month) {
+    const date = moment(month, "MM-YYYY");
+    const startDate = date.startOf("month").toISOString();
+    const endDate = date.endOf("month").toISOString();
+
+    AND = [...AND, { date_gte: startDate }, { date_lte: endDate }];
+  }
 
   return ctx.db.query.records(
     {
