@@ -21,7 +21,7 @@
                 type="password"
               ></v-text-field>
             </v-form>
-            <v-btn block depressed>Criar Conta</v-btn>
+            <v-btn block depressed color="secondary">Criar Conta</v-btn>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
