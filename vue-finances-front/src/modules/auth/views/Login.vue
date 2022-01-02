@@ -13,6 +13,8 @@
                 name="email"
                 label="Email"
                 type="email"
+                :error-messages="emailErrors"
+                :success="!$v.user.email.$invalid"
                 v-model.trim="$v.user.email.$model"
               ></v-text-field>
               <v-text-field
@@ -20,6 +22,8 @@
                 name="password"
                 label="Senha"
                 type="password"
+                :error-messages="passwordErrors"
+                :success="!$v.user.password.$invalid"
                 v-model.trim="$v.user.password.$model"
               ></v-text-field>
             </v-form>
@@ -27,9 +31,14 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn :disabled="$v.$invalid" color="primary" large @click="submit"
-              >Login</v-btn
+            <v-btn
+              :disabled="$v.$invalid"
+              color="primary"
+              large
+              @click="submit"
             >
+              Login
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -57,6 +66,32 @@ export default {
         required,
         minLength: minLength(6),
       },
+    },
+  },
+  computed: {
+    emailErrors() {
+      const errors = [];
+      const email = this.$v.user.email;
+      if (!email.$dirty) {
+        return errors;
+      }
+      !email.required && errors.push("Email é obrigatório!");
+      !email.email && errors.push("Insira um email valido!");
+      return errors;
+    },
+
+    passwordErrors() {
+      const errors = [];
+      const password = this.$v.user.password;
+      if (!password.$dirty) {
+        return errors;
+      }
+      !password.required && errors.push("Senha é obrigatória!");
+      !password.minLength &&
+        errors.push(
+          `Insira pelo menos ${password.$params.minLength.min} caracteres!`
+        );
+      return errors;
     },
   },
   methods: {
