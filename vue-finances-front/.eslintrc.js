@@ -14,5 +14,6 @@ module.exports = {
     semi: [2, "always"],
     "comma-dangle": "off",
     "@typescript-eslint/comma-dangle": "off",
+    "space-before-function-paren": ["error", "never"],
   },
 };
