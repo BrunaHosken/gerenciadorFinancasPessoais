@@ -6,9 +6,8 @@ const login = async (variables) => {
     mutation: LoginMutation,
     variables,
   });
-  const { login } = response.data.login;
+  const { login } = response.data;
   await onLogin(apollo, login.token);
-
   return login;
 };
 
