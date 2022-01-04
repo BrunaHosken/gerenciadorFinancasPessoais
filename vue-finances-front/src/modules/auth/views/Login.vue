@@ -5,6 +5,13 @@
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark>
             <v-toolbar-title>{{ texts.toolbar }}</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-progress-circular
+              v-show="isLoading"
+              indeterminate
+              color="white"
+              width="2"
+            ></v-progress-circular>
           </v-toolbar>
           <v-card-text>
             <v-form>
@@ -71,6 +78,7 @@ export default {
   name: "Login",
   data: () => ({
     isLogin: true,
+    isLoading: false,
     user: {
       name: "",
       email: "",
@@ -148,9 +156,17 @@ export default {
   },
   methods: {
     async submit() {
-      this.isLogin
-        ? await AuthService.login(this.user)
-        : await AuthService.signup(this.user);
+      this.isLoading = true;
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        this.isLogin
+          ? await AuthService.login(this.user)
+          : await AuthService.signup(this.user);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 };
