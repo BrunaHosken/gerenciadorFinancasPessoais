@@ -1,36 +1,40 @@
 <template>
-  <v-card>
-    <v-list two-line>
-      <template v-for="(records, date, index) in mappedRecords">
-        <v-subheader :key="date">{{ date }}</v-subheader>
-        <RecordsListItem
-          v-for="record in records"
-          :key="record.id"
-          :record="record"
-        />
-        <v-divider
-          v-if="showDivider(index, mappedRecords)"
-          :key="`${date}-${index}`"
-        ></v-divider>
-      </template>
-    </v-list>
+  <div>
+    <ToolbarByMonth class="mt-5 mb-5" />
+    <v-card>
+      <v-list two-line>
+        <template v-for="(records, date, index) in mappedRecords">
+          <v-subheader :key="date">{{ date }}</v-subheader>
+          <RecordsListItem
+            v-for="record in records"
+            :key="record.id"
+            :record="record"
+          />
+          <v-divider
+            v-if="showDivider(index, mappedRecords)"
+            :key="`${date}-${index}`"
+          ></v-divider>
+        </template>
+      </v-list>
 
-    <v-footer class="pa-2">
-      <v-flex text-sm-right>
-        <h3 class="font-weight-light">
-          <span>Saldo do mês:</span>
-          <strong class="ml-5" :class="amountColor(totalAmount)">
-            {{ formatCurrency(totalAmount) }}
-          </strong>
-        </h3>
-      </v-flex>
-    </v-footer>
-  </v-card>
+      <v-footer class="pa-2">
+        <v-flex text-right>
+          <h3 class="font-weight-light">
+            <span>Saldo do mês:</span>
+            <strong class="ml-5" :class="amountColor(totalAmount)">
+              {{ formatCurrency(totalAmount) }}
+            </strong>
+          </h3>
+        </v-flex>
+      </v-footer>
+    </v-card>
+  </div>
 </template>
 
 <script>
 import moment from "moment";
 import RecordsListItem from "./RecordsListItem.vue";
+import ToolbarByMonth from "./ToolbarByMonth.vue";
 import RecordsService from "./../services/records-service";
 import { groupBy } from "./../../../../../utils";
 import formatCurrentMixin from "./../../../../../mixins/format-currency";
@@ -40,6 +44,7 @@ export default {
   name: "RecordsList",
   components: {
     RecordsListItem,
+    ToolbarByMonth,
   },
   mixins: [formatCurrentMixin, amountColorMixin],
   data: () => ({
