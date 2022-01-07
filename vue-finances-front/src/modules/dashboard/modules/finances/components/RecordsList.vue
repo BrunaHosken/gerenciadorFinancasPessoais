@@ -13,7 +13,8 @@
           <v-divider
             v-if="showDivider(index, mappedRecords)"
             :key="`${date}-${index}`"
-          ></v-divider>
+          >
+          </v-divider>
         </template>
       </v-list>
 
@@ -60,15 +61,18 @@ export default {
       return this.records.reduce((sum, record) => sum + record.amount, 0);
     },
   },
-  async created() {
-    this.records = await RecordsService.records();
-  },
+  async created() {},
   methods: {
     showDivider(index, object) {
       return index < Object.keys(object).length - 1;
     },
     changeMonth(month) {
-      console.log(month);
+      this.setRecords(month);
+    },
+    async setRecords(month) {
+      this.records = await RecordsService.records({
+        month,
+      });
     },
   },
 };
