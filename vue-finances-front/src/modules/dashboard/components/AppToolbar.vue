@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar fixed color="primary">
+  <v-app-bar fixed color="primary" app>
     <v-app-bar-nav-icon @click.stop="$emit('hide', !show)"></v-app-bar-nav-icon>
     <v-toolbar-title>Dashboard</v-toolbar-title>
   </v-app-bar>
