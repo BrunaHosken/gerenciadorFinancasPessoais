@@ -20,4 +20,13 @@ const formatError = (message) => {
   return messageSpit[messageSpit.length - 1].trim();
 };
 
-export { errorHandler, formatError };
+const currencyFormatter = (
+  { locale, currency } = { locale: "pt-BR", currency: "BRL" }
+) => {
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+  });
+};
+
+export { currencyFormatter, errorHandler, formatError };
