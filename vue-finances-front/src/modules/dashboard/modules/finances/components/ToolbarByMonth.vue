@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar color="primary">
+  <v-toolbar :color="color">
     <v-layout align-center>
       <v-flex xs1>
         <div class="text-xs-left">
@@ -33,6 +33,7 @@ export default {
   name: "ToolbarByMonth",
   props: {
     format: String,
+    color: String,
   },
   data: () => ({
     date: moment(),

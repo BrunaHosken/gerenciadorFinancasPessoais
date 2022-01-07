@@ -1,6 +1,11 @@
 <template>
   <div>
-    <ToolbarByMonth class="mt-5 mb-3" format="MM-YYYY" @month="changeMonth" />
+    <ToolbarByMonth
+      class="mt-5 mb-3"
+      format="MM-YYYY"
+      @month="changeMonth"
+      :color="toolbarColor"
+    />
     <v-card>
       <v-card-text v-if="mappedRecordsLenght === 0" class="text-center">
         <v-icon size="100" color="grey">assignment</v-icon>
@@ -59,6 +64,9 @@ export default {
     records: [],
   }),
   computed: {
+    toolbarColor() {
+      return this.totalAmount < 0 ? "red accent-2" : "primary";
+    },
     mappedRecords() {
       return groupBy(this.records, "date", (record, dateKey) => {
         return moment(record[dateKey]).format("DD/MM/YYYY");
