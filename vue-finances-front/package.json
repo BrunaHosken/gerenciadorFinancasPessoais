@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "graphql": "^14.7.0",
     "material-design-icons-iconfont": "6.1.0",
+    "moment": "^2.24.0",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
