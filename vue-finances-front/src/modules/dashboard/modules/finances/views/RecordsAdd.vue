@@ -34,6 +34,7 @@
                 v-model="$v.record.description.$model"
               ></v-text-field>
               <v-text-field
+                v-show="showTagsInput"
                 name="tags"
                 label="Tags (separadas por vírgula)"
                 prepend-icon="label"
@@ -41,6 +42,7 @@
                 v-model="record.tags"
               ></v-text-field>
               <v-text-field
+                v-show="showNotesInput"
                 name="notes"
                 label="Observação"
                 prepend-icon="note"
@@ -48,6 +50,34 @@
                 v-model="record.notes"
               ></v-text-field>
             </v-form>
+
+            <v-tooltip left>
+              <template v-slot:activator="{ on }">
+                <v-btn icon small class="mr-3" v-on="on">
+                  <v-icon
+                    :color="color"
+                    @click="showTagsInput = !showTagsInput"
+                  >
+                    label
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span> {{ titleTags }} </span>
+            </v-tooltip>
+
+            <v-tooltip right>
+              <template v-slot:activator="{ on }">
+                <v-btn icon small v-on="on">
+                  <v-icon
+                    :color="color"
+                    @click="showNotesInput = !showNotesInput"
+                  >
+                    note
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span> {{ titleNotes }} </span>
+            </v-tooltip>
           </v-card-text>
         </v-card>
 
@@ -60,6 +90,7 @@
         >
           <v-icon>close</v-icon>
         </v-btn>
+
         <v-btn :color="color" large fab class="mt-4" @click="submit">
           <v-icon>check</v-icon>
         </v-btn>
@@ -91,6 +122,8 @@ export default {
         tags: "",
         notes: "",
       },
+      showNotesInput: false,
+      showTagsInput: false,
     };
   },
   validations: {
@@ -104,6 +137,14 @@ export default {
     },
   },
   computed: {
+    titleTags() {
+      return this.showTagsInput ? "Remover tags" : "Adicionar tags";
+    },
+    titleNotes() {
+      return this.showNotesInput
+        ? "Remover observação"
+        : "Adicionar observação";
+    },
     color() {
       switch (this.record.type) {
         case "CREDIT":
