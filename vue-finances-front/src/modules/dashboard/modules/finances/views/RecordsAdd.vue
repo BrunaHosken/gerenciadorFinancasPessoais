@@ -40,7 +40,6 @@
           </v-card-text>
         </v-card>
       </v-flex>
-      <button @click="teste">teste</button>
     </v-layout>
   </v-container>
 </template>
@@ -100,9 +99,6 @@ export default {
           title = "Novo Lançamento";
       }
       this.setTitle({ title });
-    },
-    teste() {
-      console.log(this.record);
     },
   },
 };
