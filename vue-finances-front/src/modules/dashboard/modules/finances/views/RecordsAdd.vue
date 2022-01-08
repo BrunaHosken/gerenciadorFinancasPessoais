@@ -15,7 +15,7 @@
                 :items="accounts"
                 item-text="description"
                 item-value="id"
-                v-model="record.accountId"
+                v-model="$v.record.accountId.$model"
               ></v-select>
               <v-select
                 name="category"
@@ -24,30 +24,45 @@
                 :items="categories"
                 item-text="description"
                 item-value="id"
-                v-model="record.categoryId"
+                v-model="$v.record.categoryId.$model"
               ></v-select>
               <v-text-field
                 name="description"
                 label="Descrição"
                 prepend-icon="description"
                 type="text"
+                v-model="$v.record.description.$model"
               ></v-text-field>
               <v-text-field
                 name="tags"
                 label="Tags (separadas por vírgula)"
                 prepend-icon="label"
                 type="text"
+                v-model="record.tags"
               ></v-text-field>
               <v-text-field
                 name="notes"
                 label="Observação"
                 prepend-icon="note"
                 type="text"
+                v-model="record.notes"
               ></v-text-field>
             </v-form>
           </v-card-text>
         </v-card>
-        <button @click="teste">Teste</button>
+
+        <v-btn
+          color="secondary"
+          large
+          fab
+          class="mt-4 mr-5"
+          @click="$router.push('/dashboard')"
+        >
+          <v-icon>close</v-icon>
+        </v-btn>
+        <v-btn :color="color" large fab class="mt-4" @click="submit">
+          <v-icon>check</v-icon>
+        </v-btn>
       </v-flex>
     </v-layout>
   </v-container>
@@ -88,6 +103,20 @@ export default {
       description: { required, minLength: minLength(6) },
     },
   },
+  computed: {
+    color() {
+      switch (this.record.type) {
+        case "CREDIT":
+          return "primary";
+
+        case "DEBIT":
+          return "red accent-2";
+
+        default:
+          return "primary";
+      }
+    },
+  },
   async created() {
     this.changeTitle(this.$route.query.type);
     this.accounts = await AccountsService.accounts();
@@ -120,7 +149,7 @@ export default {
       }
       this.setTitle({ title });
     },
-    teste() {
+    submit() {
       console.log(this.record);
     },
   },
