@@ -1,7 +1,7 @@
 <template>
   <v-container text-center>
     <v-layout row wrap>
-      <v-flex xs12 sm6 md4 lg4>
+      <v-flex xs12 sm6 md4 lg3 mr-10>
         <NumericDisplay :color="color" />
       </v-flex>
       <v-flex xs12 sm6 md8 lg8>
