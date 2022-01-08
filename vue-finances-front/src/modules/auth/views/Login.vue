@@ -4,12 +4,17 @@
       <v-flex xs12 sm6 md4 lg3 xl3>
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark>
-            <v-card-content>
-              <v-card-title>Finanças Pessoais </v-card-title>
-              <v-card-subtitle> {{ texts.toolbar }}</v-card-subtitle>
-            </v-card-content>
+            <v-list-item two-line>
+              <v-list-item-content>
+                <v-list-item-title class="text-h5 mb-1">
+                  Finanças Pessoais
+                </v-list-item-title>
+                <v-list-item-subtitle
+                  >{{ texts.toolbar }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
 
-            <!-- <v-toolbar-title></v-toolbar-title> -->
             <v-spacer></v-spacer>
             <v-progress-circular
               v-show="isLoading"
