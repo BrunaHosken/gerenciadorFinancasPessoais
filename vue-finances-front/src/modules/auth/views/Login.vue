@@ -9,8 +9,8 @@
                 <v-list-item-title class="text-h5 mb-1">
                   Finanças Pessoais
                 </v-list-item-title>
-                <v-list-item-subtitle
-                  >{{ texts.toolbar }}
+                <v-list-item-subtitle>
+                  {{ texts.toolbar }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
