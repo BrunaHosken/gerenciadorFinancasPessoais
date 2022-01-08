@@ -17,6 +17,7 @@
                 item-value="id"
                 v-model="$v.record.accountId.$model"
               ></v-select>
+
               <v-select
                 name="category"
                 label="Categoria"
@@ -26,28 +27,31 @@
                 item-value="id"
                 v-model="$v.record.categoryId.$model"
               ></v-select>
+
               <v-text-field
                 name="description"
                 label="Descrição"
                 prepend-icon="description"
                 type="text"
-                v-model="$v.record.description.$model"
+                v-model.trim="$v.record.description.$model"
               ></v-text-field>
+
               <v-text-field
                 v-show="showTagsInput"
                 name="tags"
                 label="Tags (separadas por vírgula)"
                 prepend-icon="label"
                 type="text"
-                v-model="record.tags"
+                v-model.trim="record.tags"
               ></v-text-field>
+
               <v-text-field
                 v-show="showNotesInput"
                 name="notes"
                 label="Observação"
                 prepend-icon="note"
                 type="text"
-                v-model="record.notes"
+                v-model.trim="record.notes"
               ></v-text-field>
             </v-form>
 
