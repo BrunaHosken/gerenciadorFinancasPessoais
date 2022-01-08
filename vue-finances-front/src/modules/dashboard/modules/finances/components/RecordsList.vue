@@ -5,6 +5,7 @@
       format="MM-YYYY"
       @month="changeMonth"
       :color="toolbarColor"
+      :month="$route.query.month"
     />
     <v-card>
       <v-card-text v-if="mappedRecordsLenght === 0" class="text-center">
@@ -79,13 +80,19 @@ export default {
       return this.records.reduce((sum, record) => sum + record.amount, 0);
     },
   },
-  async created() {},
+
   methods: {
     showDivider(index, object) {
       return index < Object.keys(object).length - 1;
     },
     changeMonth(month) {
-      this.setRecords(month);
+      this.$router
+        .push({
+          path: this.$route.path,
+          query: { month },
+        })
+        .catch(() => {})
+        .finally(this.setRecords(month));
     },
     async setRecords(month) {
       this.records = await RecordsService.records({
