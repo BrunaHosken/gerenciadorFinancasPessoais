@@ -2,8 +2,9 @@
   <v-container text-center>
     <v-layout row wrap>
       <v-flex xs12 sm6 md4 lg3 mr-10>
-        <NumericDisplay :color="color" />
+        <NumericDisplay :color="color" :value="355.57" />
       </v-flex>
+
       <v-flex xs12 sm6 md8 lg8>
         <v-card>
           <v-card-text>
