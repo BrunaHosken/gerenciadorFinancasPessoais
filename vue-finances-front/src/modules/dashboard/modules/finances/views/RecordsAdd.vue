@@ -1,5 +1,14 @@
 <template>
-  <h1>Novo lançamento</h1>
+  <v-container text-center>
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md4 lg4>
+        <p>Amount</p>
+      </v-flex>
+      <v-flex xs12 sm6 md8 lg8>
+        <p>Formulário</p>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
