@@ -43,12 +43,14 @@ export default {
   }),
   methods: {
     addRecord(type) {
-      this.$router.push({
-        name: "recordsAdd",
-        query: {
-          type,
-        },
-      });
+      this.$router
+        .push({
+          name: "recordsAdd",
+          query: {
+            type,
+          },
+        })
+        .catch(() => {});
     },
   },
 };
