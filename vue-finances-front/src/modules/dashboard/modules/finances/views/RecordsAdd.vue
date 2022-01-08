@@ -5,7 +5,40 @@
         <p>Amount</p>
       </v-flex>
       <v-flex xs12 sm6 md8 lg8>
-        <p>Formulário</p>
+        <v-card>
+          <v-card-text>
+            <v-form>
+              <v-select
+                name="account"
+                label="Conta"
+                prepend-icon="account_balance"
+              ></v-select>
+              <v-select
+                name="category"
+                label="Categoria"
+                prepend-icon="class"
+              ></v-select>
+              <v-text-field
+                name="description"
+                label="Descrição"
+                prepend-icon="description"
+                type="text"
+              ></v-text-field>
+              <v-text-field
+                name="tags"
+                label="Tags (separadas por vírgula)"
+                prepend-icon="label"
+                type="text"
+              ></v-text-field>
+              <v-text-field
+                name="notes"
+                label="Observação"
+                prepend-icon="note"
+                type="text"
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+        </v-card>
       </v-flex>
       <button @click="teste">teste</button>
     </v-layout>
