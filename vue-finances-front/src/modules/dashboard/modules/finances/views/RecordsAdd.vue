@@ -242,7 +242,7 @@ export default {
       date: { required },
       accountId: { required },
       categoryId: { required },
-      description: { required, minLength: minLength(6) },
+      description: { required, minLength: minLength(3) },
     },
   },
   computed: {
