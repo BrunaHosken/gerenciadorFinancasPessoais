@@ -181,10 +181,16 @@
           <v-icon>check</v-icon>
         </v-btn>
 
-        <v-dialog v-model="showAccountCategoryDialog" max-width="350px">
-          <v-card>
-            <v-card-title>Account or Category</v-card-title>
-          </v-card>
+        <v-dialog
+          v-model="showAccountCategoryDialog"
+          max-width="350px"
+          persistent
+        >
+          <AccountCategoryAdd
+            v-if="showAccountCategoryDialog"
+            :entity="entity"
+            @close="showAccountCategoryDialog = false"
+          />
         </v-dialog>
       </v-flex>
     </v-layout>
@@ -199,11 +205,13 @@ import AccountsService from "./../services/accounts-service";
 import CategoriesService from "./../services/categories-service";
 import RecordsService from "./../services/records-service";
 import NumericDisplay from "./../components/NumericDisplay.vue";
+import AccountCategoryAdd from "./../components/AccountCategoryAdd.vue";
 
 export default {
   name: "RecordsAdd",
   components: {
     NumericDisplay,
+    AccountCategoryAdd,
   },
   data() {
     return {
