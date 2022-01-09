@@ -2,7 +2,7 @@
   <v-container text-center>
     <v-layout row wrap>
       <v-flex xs12 sm6 md4 lg3 mr-10>
-        <NumericDisplay :color="color" :value="355.57" />
+        <NumericDisplay :color="color" v-model="$v.record.amount.$model" />
       </v-flex>
 
       <v-flex xs12 sm6 md8 lg8>
@@ -181,7 +181,7 @@ export default {
   validations: {
     record: {
       type: { required },
-      ammount: { required, decimal, different: (value) => value !== 0 },
+      amount: { required, decimal, different: (value) => value !== 0 },
       date: { required },
       accountId: { required },
       categoryId: { required },

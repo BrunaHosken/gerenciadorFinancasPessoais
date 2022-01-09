@@ -8,11 +8,13 @@
     <v-card-text>
       <v-layout row wrap justify-end>
         <v-flex v-for="btn in buttons" :key="btn" xs4 pa-1>
-          <v-btn :color="color">{{ btn }}</v-btn>
+          <v-btn :color="color" class="headline" @click="change(btn, 'add')">
+            {{ btn }}
+          </v-btn>
         </v-flex>
 
         <v-flex xs4 pa-1>
-          <v-btn icon>
+          <v-btn icon @click="change">
             <v-icon>backspace</v-icon>
           </v-btn>
         </v-flex>
@@ -37,6 +39,16 @@ export default {
   computed: {
     display(value) {
       return this.formatCurrency(this.value || 0);
+    },
+  },
+  methods: {
+    change(btnValue, operation) {
+      const currentValue = this.value.toFixed(2);
+      const total =
+        operation === "add"
+          ? +(currentValue + btnValue) * 10
+          : +currentValue.slice(0, -1) / 10;
+      this.$emit("input", total);
     },
   },
 };
