@@ -55,6 +55,8 @@ import TotalBalance from "./TotalBalance.vue";
 import { groupBy } from "./../../../../../utils";
 import formatCurrentMixin from "./../../../../../mixins/format-currency";
 import amountColorMixin from "./../mixins/amount-color";
+import { Subject } from "rxjs";
+import { mergeMap } from "rxjs/operators";
 
 export default {
   name: "RecordsList",
@@ -66,6 +68,7 @@ export default {
   mixins: [formatCurrentMixin, amountColorMixin],
   data: () => ({
     records: [],
+    monthSubject$: new Subject(),
   }),
   computed: {
     toolbarColor() {
@@ -83,6 +86,9 @@ export default {
       return this.records.reduce((sum, record) => sum + record.amount, 0);
     },
   },
+  created() {
+    this.setRecords();
+  },
 
   methods: {
     showDivider(index, object) {
@@ -95,12 +101,13 @@ export default {
           query: { month },
         })
         .catch(() => {})
-        .finally(this.setRecords(month));
+        .finally(this.monthSubject$.next({ month }));
     },
-    async setRecords(month) {
-      this.records = await RecordsService.records({
-        month,
-      });
+    setRecords(month) {
+      this.monthSubject$
+        .pipe(mergeMap((variables) => RecordsService.records(variables)))
+        .subscribe((records) => (this.records = records));
+      RecordsService.records({ month });
     },
   },
 };
