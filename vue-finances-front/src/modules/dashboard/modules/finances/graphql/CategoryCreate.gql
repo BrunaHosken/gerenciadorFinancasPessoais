@@ -1,0 +1,14 @@
+# import * from './Operation.gql'
+
+mutation AccountCreate($description: String!, $operation: Operation!) {
+  createCategory(description: $description, operation: $operation) {
+    id
+    description
+    operation
+    user {
+      id
+      name
+      email
+    }
+  }
+}
