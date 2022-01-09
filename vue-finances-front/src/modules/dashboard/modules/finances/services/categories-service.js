@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 import CategoriesQuery from "./../graphql/Categories.gql";
 import CategoryCreateMutation from "./../graphql/CategoryCreate.gql";
 
-const categories = ({ operation }) => {
+const categories = ({ operation } = {}) => {
   const queryRef = apollo.watchQuery({
     query: CategoriesQuery,
     variables: { operation: operation ? operation.toUpperCase() : operation },
@@ -19,10 +19,10 @@ const createCategory = async (variables) => {
       try {
         const variables = { operation: createCategory.operation };
         const data = proxy.readQuery({
-          CategoriesQuery,
+          query: CategoriesQuery,
           variables,
         });
-        data.accounts = [...data.categories, createCategory];
+        data.categories = [...data.categories, createCategory];
         proxy.writeQuery({
           query: CategoriesQuery,
           variables,

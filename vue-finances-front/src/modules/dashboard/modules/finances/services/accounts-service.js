@@ -18,15 +18,17 @@ const createAccount = async (variables) => {
     update: (proxy, { data: { createAccount } }) => {
       try {
         const data = proxy.readQuery({
-          AccountsQuery,
+          query: AccountsQuery,
         });
+
         data.accounts = [...data.accounts, createAccount];
+
         proxy.writeQuery({
           query: AccountsQuery,
           data,
         });
-      } catch (error) {
-        console.log('Query "acounts" has not been read yet!', error);
+      } catch (e) {
+        console.log('Query "accounts" has not been read yet!', e);
       }
     },
   });
