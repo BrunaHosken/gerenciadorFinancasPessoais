@@ -69,6 +69,7 @@ export default {
   data: () => ({
     records: [],
     monthSubject$: new Subject(),
+    subscriptions: [],
   }),
   computed: {
     toolbarColor() {
@@ -89,7 +90,9 @@ export default {
   created() {
     this.setRecords();
   },
-
+  destroyed() {
+    this.subscriptions.forEach((s) => s.unsubscribe());
+  },
   methods: {
     showDivider(index, object) {
       return index < Object.keys(object).length - 1;
@@ -104,9 +107,11 @@ export default {
         .finally(this.monthSubject$.next({ month }));
     },
     setRecords(month) {
-      this.monthSubject$
-        .pipe(mergeMap((variables) => RecordsService.records(variables)))
-        .subscribe((records) => (this.records = records));
+      this.subscriptions.push(
+        this.monthSubject$
+          .pipe(mergeMap((variables) => RecordsService.records(variables)))
+          .subscribe((records) => (this.records = records))
+      );
       RecordsService.records({ month });
     },
   },
