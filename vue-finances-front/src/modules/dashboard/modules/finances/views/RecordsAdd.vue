@@ -139,7 +139,7 @@
         </v-btn>
 
         <v-btn
-          color="secondary"
+          color="orange darken-3"
           large
           fab
           class="mt-4 mr-5"
@@ -279,6 +279,18 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    clean() {
+      this.record = {
+        type: this.$route.query.type.toUpperCase(),
+        amount: 0,
+        date: moment().format("YYYY-MM-DD"),
+        accountId: "",
+        categoryId: "",
+        description: "",
+        tags: "",
+        notes: "",
+      };
     },
   },
 };
