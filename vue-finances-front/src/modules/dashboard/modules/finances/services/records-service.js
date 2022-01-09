@@ -3,12 +3,12 @@ import moment from "moment";
 import { from } from "rxjs";
 import { map } from "rxjs/operators";
 import RecordsQuery from "./../graphql/Records.gql";
-import RecordsCreateMutation from "./../graphql/RecordsCreate.gql";
+import RecordCreateMutation from "./../graphql/RecordsCreate.gql";
 import TotalBalanceQuery from "./../graphql/TotalBalance.gql";
 
 const createRecord = async (variables) => {
   const response = await apollo.mutate({
-    mutation: RecordsCreateMutation,
+    mutation: RecordCreateMutation,
     variables,
     update: (proxy, { data: { createRecord } }) => {
       const month = moment(createRecord.date.substr(0, 10)).format("MM-YYYY");
