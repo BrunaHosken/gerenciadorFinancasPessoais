@@ -59,7 +59,7 @@
                 item-value="id"
                 v-model="$v.record.accountId.$model"
               >
-                <v-list-item slot="prepend-item" ripple>
+                <v-list-item slot="prepend-item" ripple @click="add('account')">
                   <v-list-item-action>
                     <v-icon>add</v-icon>
                   </v-list-item-action>
@@ -77,7 +77,11 @@
                 item-value="id"
                 v-model="$v.record.categoryId.$model"
               >
-                <v-list-item slot="prepend-item" ripple>
+                <v-list-item
+                  slot="prepend-item"
+                  ripple
+                  @click="add('category')"
+                >
                   <v-list-item-action>
                     <v-icon>add</v-icon>
                   </v-list-item-action>
@@ -176,6 +180,12 @@
         >
           <v-icon>check</v-icon>
         </v-btn>
+
+        <v-dialog v-model="showAccountCategoryDialog" max-width="350px">
+          <v-card>
+            <v-card-title>Account or Category</v-card-title>
+          </v-card>
+        </v-dialog>
       </v-flex>
     </v-layout>
   </v-container>
@@ -200,6 +210,7 @@ export default {
       accounts: [],
       categories: [],
       dateDialogValue: moment().format("YYYY-MM-DD"),
+      entity: "",
       record: {
         type: this.$route.query.type.toUpperCase(),
         amount: 0,
@@ -213,7 +224,7 @@ export default {
       showDateDialog: false,
       showNotesInput: false,
       showTagsInput: false,
-      error: undefined,
+      showAccountCategoryDialog: false,
     };
   },
   validations: {
@@ -270,6 +281,10 @@ export default {
   },
   methods: {
     ...mapActions(["setTitle"]),
+    add(entity) {
+      this.showAccountCategoryDialog = true;
+      this.entity = entity;
+    },
     changeTitle(recordType) {
       let title;
       switch (recordType) {
