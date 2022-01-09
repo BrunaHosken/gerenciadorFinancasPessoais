@@ -132,9 +132,21 @@
           large
           fab
           class="mt-4 mr-5"
+          title="Cancelar"
           @click="$router.push('/dashboard')"
         >
           <v-icon>close</v-icon>
+        </v-btn>
+
+        <v-btn
+          color="secondary"
+          large
+          fab
+          class="mt-4 mr-5"
+          title="Limpar"
+          @click="clean"
+        >
+          <v-icon>auto_delete</v-icon>
         </v-btn>
 
         <v-btn
@@ -142,6 +154,7 @@
           large
           fab
           class="mt-4"
+          title="Cadastrar"
           :disabled="$v.$invalid"
           @click="submit"
         >
@@ -184,6 +197,7 @@ export default {
       showDateDialog: false,
       showNotesInput: false,
       showTagsInput: false,
+      error: undefined,
     };
   },
   validations: {
