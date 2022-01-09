@@ -137,7 +137,14 @@
           <v-icon>close</v-icon>
         </v-btn>
 
-        <v-btn :color="color" large fab class="mt-4" @click="submit">
+        <v-btn
+          :color="color"
+          large
+          fab
+          class="mt-4"
+          :disabled="$v.$invalid"
+          @click="submit"
+        >
           <v-icon>check</v-icon>
         </v-btn>
       </v-flex>
@@ -216,6 +223,7 @@ export default {
   async created() {
     this.changeTitle(this.$route.query.type);
     this.accounts = await AccountsService.accounts();
+    this.record.categoryId = "";
     this.categories = await CategoriesService.categories({
       operation: this.$route.query.type,
     });
