@@ -76,7 +76,7 @@ export default {
     },
     mappedRecords() {
       return groupBy(this.records, "date", (record, dateKey) => {
-        return moment(record[dateKey]).format("DD/MM/YYYY");
+        return moment(record[dateKey].substr(0, 10)).format("DD/MM/YYYY");
       });
     },
     mappedRecordsLenght() {
