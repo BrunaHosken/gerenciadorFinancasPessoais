@@ -1,11 +1,6 @@
+#import './AccountFragment.gql'
 query Accounts {
   accounts {
-    id
-    description
-    user {
-      id
-      name
-      email
-    }
+    ...AccountFragment
   }
 }

@@ -1,7 +1,6 @@
+#import './UserFragment.gql'
 query User {
   user {
-    id
-    name
-    email
+    ...UserFragment
   }
 }

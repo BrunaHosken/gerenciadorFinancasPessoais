@@ -1,0 +1,22 @@
+#import './../../../../auth/graphql/UserFragment.gql'
+#import './AccountFragment.gql'
+#import './CategoryFragment.gql'
+
+fragment RecordsFragment on Record {
+  id
+  type
+  amount
+  date
+  description
+  notes
+  tags
+  account {
+    ...AccountFragment
+  }
+  category {
+    ...CategoryFragment
+  }
+  user {
+    ...UserFragment
+  }
+}

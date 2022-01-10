@@ -1,11 +1,6 @@
+#import './AccountFragment.gql'
 mutation AccountCreate($description: String!) {
   createAccount(description: $description) {
-    id
-    description
-    user {
-      id
-      name
-      email
-    }
+    ...AccountFragment
   }
 }
