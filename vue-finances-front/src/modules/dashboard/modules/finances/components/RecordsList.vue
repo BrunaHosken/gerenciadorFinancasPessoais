@@ -7,7 +7,10 @@
       @month="changeMonth"
       :color="toolbarColor"
       :month="$route.query.month"
-    />
+      :showSlot="false"
+    >
+      <RecordsFilter />
+    </ToolbarByMonth>
     <v-card>
       <v-card-text v-if="mappedRecordsLenght === 0" class="text-center">
         <v-icon size="100" color="grey">assignment</v-icon>
@@ -52,6 +55,7 @@ import RecordsListItem from "./RecordsListItem.vue";
 import ToolbarByMonth from "./ToolbarByMonth.vue";
 import RecordsService from "./../services/records-service";
 import TotalBalance from "./TotalBalance.vue";
+import RecordsFilter from "./RecordsFilter.vue";
 import { groupBy } from "./../../../../../utils";
 import formatCurrentMixin from "./../../../../../mixins/format-currency";
 import amountColorMixin from "./../mixins/amount-color";
@@ -62,6 +66,7 @@ export default {
   name: "RecordsList",
   components: {
     RecordsListItem,
+    RecordsFilter,
     ToolbarByMonth,
     TotalBalance,
   },

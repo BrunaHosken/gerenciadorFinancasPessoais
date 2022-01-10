@@ -9,14 +9,18 @@
         </div>
       </v-flex>
 
-      <v-flex xs10>
+      <v-flex xs8 offset-xs1>
         <v-toolbar-title class="text-center">
           <span>{{ currentMonth }}</span>
         </v-toolbar-title>
       </v-flex>
 
-      <v-flex xs1>
-        <div class="text-xs-left">
+      <v-flex v-if="showSlot" xs1 text-right>
+        <slot />
+      </v-flex>
+
+      <v-flex xs1 :class="arrowRightClass">
+        <div class="text-right">
           <v-btn icon text @click="increment">
             <v-icon>chevron_right</v-icon>
           </v-btn>
@@ -35,6 +39,10 @@ export default {
     format: String,
     color: String,
     month: String,
+    showSlot: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     date: undefined,
@@ -43,7 +51,11 @@ export default {
     currentMonth() {
       return this.date.format("MMMM YYYY");
     },
+    arrowRightClass() {
+      return !this.showSlot ? "offset-xs1" : "";
+    },
   },
+
   created() {
     this.setCurrentMonth();
     this.emit();
