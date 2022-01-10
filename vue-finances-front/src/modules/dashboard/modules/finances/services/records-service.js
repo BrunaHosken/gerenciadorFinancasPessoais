@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import RecordsQuery from "./../graphql/Records.gql";
 import RecordCreateMutation from "./../graphql/RecordsCreate.gql";
 import TotalBalanceQuery from "./../graphql/TotalBalance.gql";
+import md5 from "md5";
 
 const createRecord = async (variables) => {
   const response = await apollo.mutate({
@@ -57,11 +58,24 @@ const createRecord = async (variables) => {
   return response.data.createRecord;
 };
 
+const recordsWatchedQueries = {};
+
 const records = (variables) => {
-  const queryRef = apollo.watchQuery({
-    query: RecordsQuery,
-    variables,
-  });
+  const hashKey = md5(
+    Object.keys(variables)
+      .map((k) => variables[k])
+      .join("_")
+  );
+  let queryRef = recordsWatchedQueries[hashKey];
+
+  if (!queryRef) {
+    queryRef = apollo.watchQuery({
+      query: RecordsQuery,
+      variables,
+    });
+    recordsWatchedQueries[hashKey] = queryRef;
+  }
+
   return from(queryRef).pipe(map((res) => res.data.records));
 };
 
