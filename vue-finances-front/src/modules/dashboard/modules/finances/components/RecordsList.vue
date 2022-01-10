@@ -7,7 +7,7 @@
       @month="changeMonth"
       :color="toolbarColor"
       :month="$route.query.month"
-      :showSlot="false"
+      :showSlot="true"
     >
       <RecordsFilter />
     </ToolbarByMonth>
