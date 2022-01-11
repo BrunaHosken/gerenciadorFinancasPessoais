@@ -31,6 +31,7 @@
                     :items="operations"
                     item-text="description"
                     item-value="value"
+                    @change="localFilters.type = $event"
                   >
                   </v-select>
                 </v-list-item-subtitle>
@@ -49,6 +50,7 @@
                     :items="accounts"
                     item-text="description"
                     item-value="id"
+                    @change="localFilters.accountsId = $event"
                   >
                   </v-select>
                 </v-list-item-subtitle>
@@ -67,6 +69,7 @@
                     :items="categories"
                     item-text="description"
                     item-value="id"
+                    @change="localFilters.categoriesId = $event"
                   >
                   </v-select>
                 </v-list-item-subtitle>
@@ -102,6 +105,11 @@ export default {
       { description: "Receita", value: "CREDIT" },
       { description: "Despesa", value: "DEBIT" },
     ],
+    localFilters: {
+      type: undefined,
+      accountsId: [],
+      categoriesId: [],
+    },
     showFilterDialog: false,
     subscriptions: [],
   }),
@@ -113,7 +121,7 @@ export default {
   },
   methods: {
     filter() {
-      console.log("filters");
+      console.log("filters", this.localFilters);
     },
     setItens() {
       this.subscriptions.push(
