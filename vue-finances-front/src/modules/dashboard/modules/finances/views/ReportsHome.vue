@@ -4,8 +4,8 @@
       <ToolbarByMonth
         class="mt-5 mb-3"
         format="MM-YYYY"
-        color="primary"
         :month="month || $route.query.month"
+        :color="color"
         @month="changeMonth"
       />
     </v-flex>
@@ -45,6 +45,12 @@ export default {
   }),
   computed: {
     ...mapState("finances", ["month"]),
+    recordsSum() {
+      return this.records.reduce((acc, record) => acc + record.amount, 0);
+    },
+    color() {
+      return this.recordsSum < 0 ? "red accent-2" : "primary";
+    },
   },
   created() {
     this.setTitle({ title: "Relatórios" });
