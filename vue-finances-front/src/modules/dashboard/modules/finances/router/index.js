@@ -1,5 +1,6 @@
 const RecordsHome = () => import("./../views/RecordsHome.vue");
 const RecordsAdd = () => import("./../views/RecordsAdd.vue");
+const ReportsHome = () => import("./../views/ReportsHome.vue");
 
 export default [
   {
@@ -17,5 +18,10 @@ export default [
       requiresAuth: true,
     },
     name: "recordsAdd",
+  },
+  {
+    path: "reports",
+    component: ReportsHome,
+    meta: { requiresAuth: true },
   },
 ];
