@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "apollo-boost": "^0.4.9",
+    "chart.js": "^2.8.0",
     "core-js": "^3.6.5",
     "graphql": "^14.7.0",
     "material-design-icons-iconfont": "6.1.0",
