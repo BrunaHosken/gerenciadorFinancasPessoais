@@ -54,10 +54,44 @@ const idx = (object, keyPath) => {
   );
 };
 
+const generateChartData = ({
+  items,
+  keyToGroup,
+  keyOfValue,
+  aliases,
+  type,
+  backgroundColors,
+}) => {
+  const grouped = groupBy(items, keyToGroup, idx);
+  const response = {};
+
+  for (const key in grouped) {
+    response[(aliases && aliases[key]) || key] = grouped[key].reduce(
+      (acc, item) => acc + item[keyOfValue],
+      0
+    );
+  }
+  const labels = Object.keys(response);
+
+  switch (type) {
+    case "bar":
+      return {
+        datasets: labels.map((label, index) => ({
+          label: `${label}: ${currencyFormatter().format(response[label])}`,
+          data: [response[label]],
+          backgroundColor: backgroundColors[index],
+          borderWidth: 0,
+        })),
+      };
+  }
+};
+
 const generateChartConfigs = (opts) => {
   const { type } = opts;
+  const data = generateChartData(opts);
   return {
     type,
+    data,
   };
 };
 
@@ -67,4 +101,5 @@ export {
   currencyFormatter,
   errorHandler,
   formatError,
+  generateChartConfigs,
 };
