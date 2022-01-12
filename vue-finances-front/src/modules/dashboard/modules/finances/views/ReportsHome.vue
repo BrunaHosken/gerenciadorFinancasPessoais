@@ -66,55 +66,46 @@ export default {
       this.setMonth({ month });
       this.monthSubject$.next(month);
     },
-    createChart(chartId, options) {
+    updateOrCreateChart(chartId, options) {
+      if (this[chartId]) {
+        this[chartId].data.datasets = options.data.datasets;
+        if (options.data.labels) {
+          this[chartId].data.labels = options.data.labels;
+        }
+        this[chartId].update();
+        return this[chartId];
+      }
       const ref = Array.isArray(this.$refs[chartId])
         ? this.$refs[chartId][0]
         : this.$refs[chartId];
       const ctx = ref.getContext("2d");
-      return new Chart(ctx, options);
+      this[chartId] = new Chart(ctx, options);
+      return this[chartId];
     },
 
     setCharts() {
-      const chartIncomesExpensesConfigs = generateChartConfigs({
-        type: "bar",
-        items: this.records,
-        keyToGroup: "type",
-        keyOfValue: "amount",
-        aliases: { DEBIT: "Despesas", CREDIT: "Receitas" },
-        backgroundColors: ["#D32F2F", "#2196F3"],
-      });
+      this.updateOrCreateChart(
+        "chartIncomesExpenses",
+        generateChartConfigs({
+          type: "bar",
+          items: this.records,
+          keyToGroup: "type",
+          keyOfValue: "amount",
+          aliases: { DEBIT: "Despesas", CREDIT: "Receitas" },
+          backgroundColors: ["#D32F2F", "#2196F3"],
+        })
+      );
 
-      if (this.chartIncomesExpenses) {
-        this.chartIncomesExpenses.data.datasets =
-          chartIncomesExpensesConfigs.data.datasets;
-        this.chartIncomesExpenses.update();
-      } else {
-        this.chartIncomesExpenses = this.createChart(
-          "chartIncomesExpenses",
-          chartIncomesExpensesConfigs
-        );
-      }
-
-      const chartCategoryExpensesConfigs = generateChartConfigs({
-        type: "doughnut",
-        items: this.records.filter((r) => r.type === "DEBIT"),
-        keyToGroup: "category.description",
-        keyOfValue: "amount",
-        backgroundColors: ["#673AB7", "#009688", "#FFEB3B", "#4CAF50"],
-      });
-
-      if (this.chartCategoryExpenses) {
-        this.chartCategoryExpenses.data.datasets =
-          chartCategoryExpensesConfigs.data.datasets;
-        this.chartCategoryExpenses.data.labels =
-          chartCategoryExpensesConfigs.data.labels;
-        this.chartCategoryExpenses.update();
-      } else {
-        this.chartCategoryExpenses = this.createChart(
-          "chartCategoryExpenses",
-          chartCategoryExpensesConfigs
-        );
-      }
+      this.updateOrCreateChart(
+        "chartCategoryExpenses",
+        generateChartConfigs({
+          type: "doughnut",
+          items: this.records.filter((r) => r.type === "DEBIT"),
+          keyToGroup: "category.description",
+          keyOfValue: "amount",
+          backgroundColors: ["#673AB7", "#009688", "#FFEB3B", "#4CAF50"],
+        })
+      );
     },
 
     setRecords() {
