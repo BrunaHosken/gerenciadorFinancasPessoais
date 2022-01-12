@@ -54,17 +54,13 @@ const idx = (object, keyPath) => {
   );
 };
 
-const myObject = {
-  record: {
-    category: {
-      user: {
-        name: "eu",
-      },
-    },
-  },
+const generateChartConfigs = (opts) => {
+  const { type } = opts;
+  return {
+    type,
+  };
 };
 
-console.log(idx(myObject, "record"));
 export {
   registerVuexModule,
   groupBy,
