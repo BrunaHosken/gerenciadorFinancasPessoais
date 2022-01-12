@@ -45,6 +45,26 @@ const registerVuexModule = (rootStore, moduleName, store) => {
   }
 };
 
+const idx = (object, keyPath) => {
+  const keys = keyPath.split(".");
+  return keys.reduce(
+    (obj, current) => (obj && obj[current] !== undefined ? obj[current] : null),
+
+    object
+  );
+};
+
+const myObject = {
+  record: {
+    category: {
+      user: {
+        name: "eu",
+      },
+    },
+  },
+};
+
+console.log(idx(myObject, "record"));
 export {
   registerVuexModule,
   groupBy,
