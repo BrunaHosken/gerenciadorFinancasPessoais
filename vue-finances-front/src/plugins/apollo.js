@@ -43,6 +43,13 @@ const apollo = new ApolloClient({
   connectToDevTools: process.env.NODE_ENV !== "production",
 });
 
+const onLogout = async (apollo) => {
+  if (typeof window.localStorage !== "undefined") {
+    window.localStorage.removeItem(AUTH_TOKEN);
+  }
+  await resetApolloClient(apollo);
+};
+
 export default apollo;
 
-export { AUTH_TOKEN, onLogin };
+export { AUTH_TOKEN, onLogin, onLogout };

@@ -17,6 +17,13 @@
       <v-card>
         <v-card-title>
           <h3 class="headline">Filtros</h3>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="showFilterDialog = false">
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-btn icon @click="filter">
+            <v-icon>check</v-icon>
+          </v-btn>
         </v-card-title>
 
         <v-card-text>
@@ -81,16 +88,6 @@
             </v-list-item>
           </v-list>
         </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn icon @click="showFilterDialog = false">
-            <v-icon>close</v-icon>
-          </v-btn>
-          <v-btn icon @click="filter">
-            <v-icon>check</v-icon>
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
