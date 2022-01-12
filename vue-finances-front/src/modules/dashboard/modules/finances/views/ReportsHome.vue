@@ -34,6 +34,7 @@ export default {
   components: { ToolbarByMonth },
   data: () => ({
     chartIncomesExpenses: undefined,
+    chartCategoryExpenses: undefined,
     monthSubject$: new Subject(),
     records: [],
     subscriptions: [],
@@ -79,7 +80,7 @@ export default {
         items: this.records,
         keyToGroup: "type",
         keyOfValue: "amount",
-        aliases: { CREDIT: "Receitas", DEBIT: "Despesas" },
+        aliases: { DEBIT: "Despesas", CREDIT: "Receitas" },
         backgroundColors: ["#D32F2F", "#2196F3"],
       });
 
@@ -91,6 +92,27 @@ export default {
         this.chartIncomesExpenses = this.createChart(
           "chartIncomesExpenses",
           chartIncomesExpensesConfigs
+        );
+      }
+
+      const chartCategoryExpensesConfigs = generateChartConfigs({
+        type: "doughnut",
+        items: this.records.filter((r) => r.type === "DEBIT"),
+        keyToGroup: "category.description",
+        keyOfValue: "amount",
+        backgroundColors: ["#673AB7", "#009688", "#FFEB3B", "#4CAF50"],
+      });
+
+      if (this.chartCategoryExpenses) {
+        this.chartCategoryExpenses.data.datasets =
+          chartCategoryExpensesConfigs.data.datasets;
+        this.chartCategoryExpenses.data.labels =
+          chartCategoryExpensesConfigs.data.labels;
+        this.chartCategoryExpenses.update();
+      } else {
+        this.chartCategoryExpenses = this.createChart(
+          "chartCategoryExpenses",
+          chartCategoryExpensesConfigs
         );
       }
     },

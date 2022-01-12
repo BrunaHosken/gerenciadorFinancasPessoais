@@ -55,7 +55,7 @@ const idx = (object, keyPath) => {
 };
 
 const generateChartOptions = (type) => {
-  let tooltips;
+  let tooltips = {};
   switch (type) {
     case "bar":
       tooltips = {
