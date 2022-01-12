@@ -13,6 +13,7 @@
       <v-card>
         <v-card-text>
           <h2 class="font-weight-light mb4">{{ chart.title }}</h2>
+          <canvas :ref="chart.refId"></canvas>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -25,6 +26,7 @@ import { Subject } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 import ToolbarByMonth from "./../components/ToolbarByMonth.vue";
 import RecordsService from "./../services/records-service";
+import Chart from "chart.js";
 
 export default {
   name: "ReportsHome",
@@ -34,8 +36,8 @@ export default {
     records: [],
     subscriptions: [],
     charts: [
-      { title: "Receitas vs Despesas" },
-      { title: "Despesas por Categorias" },
+      { title: "Receitas vs Despesas", refId: "chartIncomesExpenses" },
+      { title: "Despesas por Categorias", refId: "chartCategoryExpenses" },
     ],
   }),
   computed: {
@@ -61,13 +63,45 @@ export default {
       this.setMonth({ month });
       this.monthSubject$.next(month);
     },
+    setCharts() {
+      const ctx = this.$refs.chartIncomesExpenses[0].getContext("2d");
+      const myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          datasets: [
+            {
+              data: [500],
+              label: "Receitas",
+              backgroundColor: ["#2196F3"],
+            },
+            {
+              data: [350],
+              label: "Despesas",
+              backgroundColor: ["#FF5252"],
+            },
+          ],
+        },
+        options: {
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                },
+              },
+            ],
+          },
+        },
+      });
+      console.log(myChart);
+    },
     setRecords() {
       this.subscriptions.push(
         this.monthSubject$
           .pipe(mergeMap((month) => RecordsService.records({ month })))
           .subscribe((records) => {
             this.records = records;
-            console.log(this.records);
+            this.setCharts();
           })
       );
     },
