@@ -1,12 +1,13 @@
 <template>
   <div>
     <v-layout row>
-      <v-flex xs6>
-        <v-btn icon>
+      <v-flex v-if="isFiltering" xs6>
+        <v-btn icon @click="filter('clear')">
           <v-icon>close</v-icon>
         </v-btn>
       </v-flex>
-      <v-flex xs6>
+
+      <v-flex xs6 :class="buttonFilterClass">
         <v-btn icon @click="showFilterDialog = true">
           <v-icon>filter_list</v-icon>
         </v-btn>
@@ -31,6 +32,7 @@
                     :items="operations"
                     item-text="description"
                     item-value="value"
+                    :value="filters && filters.type"
                     @change="localFilters.type = $event"
                   >
                   </v-select>
@@ -50,6 +52,7 @@
                     :items="accounts"
                     item-text="description"
                     item-value="id"
+                    :value="filters && filters.accountsId"
                     @change="localFilters.accountsId = $event"
                   >
                   </v-select>
@@ -69,6 +72,7 @@
                     :items="categories"
                     item-text="description"
                     item-value="id"
+                    :value="filters && filters.categoriesId"
                     @change="localFilters.categoriesId = $event"
                   >
                   </v-select>
@@ -93,8 +97,11 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
 import AccountsService from "./../services/accounts-service";
 import CategoriesService from "./../services/categories-service";
+
+const { mapState, mapActions } = createNamespacedHelpers("finances");
 
 export default {
   name: "RecordsFilter",
@@ -113,6 +120,12 @@ export default {
     showFilterDialog: false,
     subscriptions: [],
   }),
+  computed: {
+    ...mapState(["filters", "isFiltering"]),
+    buttonFilterClass() {
+      return !this.isFiltering ? "offset-xs6" : "";
+    },
+  },
   created() {
     this.setItens();
   },
@@ -120,8 +133,13 @@ export default {
     this.subscriptions.forEach((s) => s.unsubscribe());
   },
   methods: {
-    filter() {
-      console.log("filters", this.localFilters);
+    ...mapActions(["setFilters"]),
+    filter(type) {
+      this.showFilterDialog = false;
+      this.setFilters({
+        filters: type !== "clear" ? this.localFilters : undefined,
+      });
+      this.$emit("filter");
     },
     setItens() {
       this.subscriptions.push(

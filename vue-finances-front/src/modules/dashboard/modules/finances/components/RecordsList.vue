@@ -9,7 +9,7 @@
       :month="$route.query.month"
       :showSlot="true"
     >
-      <RecordsFilter />
+      <RecordsFilter @filter="filter" />
     </ToolbarByMonth>
     <v-card>
       <v-card-text v-if="mappedRecordsLenght === 0" class="text-center">
@@ -61,6 +61,9 @@ import formatCurrentMixin from "./../../../../../mixins/format-currency";
 import amountColorMixin from "./../mixins/amount-color";
 import { Subject } from "rxjs";
 import { mergeMap } from "rxjs/operators";
+import { createNamespacedHelpers } from "vuex";
+
+const { mapState, mapActions } = createNamespacedHelpers("finances");
 
 export default {
   name: "RecordsList",
@@ -73,10 +76,11 @@ export default {
   mixins: [formatCurrentMixin, amountColorMixin],
   data: () => ({
     records: [],
-    monthSubject$: new Subject(),
+    filtersSubject$: new Subject(),
     subscriptions: [],
   }),
   computed: {
+    ...mapState(["filters", "month"]),
     toolbarColor() {
       return this.totalAmount < 0 ? "red accent-2" : "primary";
     },
@@ -99,6 +103,7 @@ export default {
     this.subscriptions.forEach((s) => s.unsubscribe());
   },
   methods: {
+    ...mapActions(["setMonth"]),
     showDivider(index, object) {
       return index < Object.keys(object).length - 1;
     },
@@ -108,12 +113,16 @@ export default {
           path: this.$route.path,
           query: { month },
         })
-        .catch(() => {})
-        .finally(this.monthSubject$.next({ month }));
+        .catch(() => {});
+      this.setMonth({ month });
+      this.filter();
+    },
+    filter() {
+      this.filtersSubject$.next({ month: this.month, ...this.filters });
     },
     setRecords(month) {
       this.subscriptions.push(
-        this.monthSubject$
+        this.filtersSubject$
           .pipe(mergeMap((variables) => RecordsService.records(variables)))
           .subscribe((records) => (this.records = records))
       );
