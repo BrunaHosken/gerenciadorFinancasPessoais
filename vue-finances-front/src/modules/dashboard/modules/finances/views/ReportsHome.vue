@@ -27,11 +27,13 @@ import { mergeMap } from "rxjs/operators";
 import ToolbarByMonth from "./../components/ToolbarByMonth.vue";
 import RecordsService from "./../services/records-service";
 import Chart from "chart.js";
+import { generateChartConfigs } from "./../../../../../utils";
 
 export default {
   name: "ReportsHome",
   components: { ToolbarByMonth },
   data: () => ({
+    chartIncomesExpenses: undefined,
     monthSubject$: new Subject(),
     records: [],
     subscriptions: [],
@@ -63,38 +65,36 @@ export default {
       this.setMonth({ month });
       this.monthSubject$.next(month);
     },
-    setCharts() {
-      const ctx = this.$refs.chartIncomesExpenses[0].getContext("2d");
-      const myChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-          datasets: [
-            {
-              data: [500],
-              label: "Receitas",
-              backgroundColor: ["#2196F3"],
-            },
-            {
-              data: [350],
-              label: "Despesas",
-              backgroundColor: ["#FF5252"],
-            },
-          ],
-        },
-        options: {
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true,
-                },
-              },
-            ],
-          },
-        },
-      });
-      console.log(myChart);
+    createChart(chartId, options) {
+      const ref = Array.isArray(this.$refs[chartId])
+        ? this.$refs[chartId][0]
+        : this.$refs[chartId];
+      const ctx = ref.getContext("2d");
+      return new Chart(ctx, options);
     },
+
+    setCharts() {
+      const chartIncomesExpensesConfigs = generateChartConfigs({
+        type: "bar",
+        items: this.records,
+        keyToGroup: "type",
+        keyOfValue: "amount",
+        aliases: { CREDIT: "Receitas", DEBIT: "Despesas" },
+        backgroundColors: ["#D32F2F", "#2196F3"],
+      });
+
+      if (this.chartIncomesExpenses) {
+        this.chartIncomesExpenses.data.datasets =
+          chartIncomesExpensesConfigs.data.datasets;
+        this.chartIncomesExpenses.update();
+      } else {
+        this.chartIncomesExpenses = this.createChart(
+          "chartIncomesExpenses",
+          chartIncomesExpensesConfigs
+        );
+      }
+    },
+
     setRecords() {
       this.subscriptions.push(
         this.monthSubject$
