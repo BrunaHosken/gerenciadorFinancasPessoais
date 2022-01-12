@@ -54,6 +54,21 @@ const idx = (object, keyPath) => {
   );
 };
 
+const generateChartOptions = (type) => {
+  const scales = {
+    yAxes: [
+      {
+        ticks: {
+          beginAtZero: true,
+        },
+      },
+    ],
+  };
+  return {
+    scales,
+  };
+};
+
 const generateChartData = ({
   items,
   keyToGroup,
@@ -88,10 +103,12 @@ const generateChartData = ({
 
 const generateChartConfigs = (opts) => {
   const { type } = opts;
+  const options = generateChartOptions(type);
   const data = generateChartData(opts);
   return {
     type,
     data,
+    options,
   };
 };
 
