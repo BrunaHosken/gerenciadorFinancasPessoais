@@ -123,7 +123,11 @@ const generateChartData = ({
         datasets: labels.map((label, index) => ({
           label: `${label}: ${currencyFormatter().format(response[label])}`,
           data: [response[label] >= 0 ? response[label] : -response[label]],
-          backgroundColor: backgroundColors[index],
+          backgroundColor:
+            label === "Receitas" && index === 0
+              ? backgroundColors[index + 1]
+              : backgroundColors[index],
+
           borderWidth: 0,
         })),
       };
