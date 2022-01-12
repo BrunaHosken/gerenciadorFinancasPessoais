@@ -103,7 +103,6 @@ export default {
           items: this.records.filter((r) => r.type === "DEBIT"),
           keyToGroup: "category.description",
           keyOfValue: "amount",
-          backgroundColors: ["#673AB7", "#009688", "#FFEB3B", "#4CAF50"],
         })
       );
     },
