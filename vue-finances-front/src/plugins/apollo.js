@@ -23,7 +23,7 @@ const onLogin = async (apollo, token) => {
 };
 
 const link = new HttpLink({
-  uri: "http://localhost:4000",
+  uri: process.env.VUE_APP_API_URL || "http://localhost:4000",
 });
 
 const authLink = new ApolloLink((operation, forward) => {
