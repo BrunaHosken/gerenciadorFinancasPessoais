@@ -16,6 +16,7 @@ const server = new GraphQLServer({
     db: new Binding.Prisma({
       typeDefs: `${__dirname}/generated/graphql-schema/prisma.graphql`,
       endpoint,
+      secret: env.PRISMA_SERVICE_SECRET,
     }),
     prisma,
   }),
