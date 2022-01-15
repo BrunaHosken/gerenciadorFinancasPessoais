@@ -28,7 +28,7 @@ services:
       CLIENT_HOSTS:
       JWT_SECRET:
       NODE_ENV:
-      PRISMA_ENDPOINT: http://prisma:4466
+      PRISMA_ENDPOINT:
       PRISMA_SERVICE:
       PRISMA_STAGE:
       PRISMA_SERVICE_SECRET:
@@ -37,6 +37,8 @@ services:
     container_name: prisma
     image: prismagraphql/prisma:1.27
     restart: always
+    ports:
+      - "4466:4466"
     depends_on:
       - postgres
     environment:
